@@ -1,3 +1,4 @@
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/product.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -26,8 +27,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late String currentUserToken;
-  late String currentUserId;
   bool isLog = false;
 
   @override
@@ -54,6 +53,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Product()),
+        ChangeNotifierProvider(create: (context) => Auth()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
