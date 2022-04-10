@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+
 
 class DatabaseHelper {
   String serverUrl = "https://parseapi.back4app.com";
@@ -9,45 +11,34 @@ class DatabaseHelper {
   var token;
 
   loginData(String email, String password) async {
-    String myUrl = "$serverUrl/login1";
-    final response = await http.post(Uri.parse(myUrl),
-        headers: {'Accept': 'application/json'},
-        body: {"email": "$email", "password": "$password"});
-    status = response.body.contains('error');
+    final user = ParseUser(email, password, email);
+    var response = await user.login();
 
-    var data = json.decode(response.body);
+    if (response.success) {
+      print("User was successfully login!");
 
-    if (status) {
-      print('data : ${data["error"]}');
     } else {
-      print('data : ${data["token"]}');
-      _save(data["token"]);
+      print("User was Error login!");
     }
+    token = user.sessionToken;
+    _save(token);
+    _loggin();
   }
 
   registerData(String email, String password) async {
-    String myUrl = "$serverUrl/users";
-    final response = await http.post(Uri.parse(myUrl),
-        headers: {
-          'X-Parse-Application-Id': 'BCrUQVkk80pCdeImSXoKXL5ZCtyyEZwbN7mAb11f',
+   final user = ParseUser.createUser(email, password, email);
 
-          'X-Parse-REST-API-Key': 'swrFFIXJlFudtF3HkZPtfybDFRTmS7sPwvGUzQ9w',
+    var response = await user.signUp();
 
-          'X-Parse-Revocable-Session': '1',
-
-          'Content-Type': 'application/json'
-          },
-        body: { "email": "$email", "password": "$password"});
-    status = response.body.contains('error');
-
-    var data = json.decode(response.body);
-
-    if (status) {
-      print('data : ${data["error"]}');
+    if (response.success) {
+      print('success signup');
     } else {
-      print('data : ${data["token"]}');
-      _save(data["token"]);
+            print('Error signup');
     }
+
+    token = user.sessionToken;
+    _save(token);
+    _loggin();
   }
 
   Future<List> getData() async {
@@ -127,4 +118,24 @@ class DatabaseHelper {
     final value = prefs.get(key) ?? 0;
     print('read : $value');
   }
+  _unSave() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = '';
+    prefs.setString(key, value);
+  }
+  _loggin () async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'isLogged';
+    final value = true;
+    prefs.setBool(key, value);
+  }
+
+  _loggout () async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'isLogged';
+    final value = false;
+    prefs.setBool(key, value);
+  }
+
 }

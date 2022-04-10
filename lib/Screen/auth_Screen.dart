@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:e_commerce/provider/auth.dart';
 
-enum AuthMode { Signup, Login }
+
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth-screen';
@@ -86,7 +86,7 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   DatabaseHelper databaseHelper =new DatabaseHelper();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.Login;
+  
   Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -118,19 +118,22 @@ class _AuthCardState extends State<AuthCard> {
       return;
     }
     _formKey.currentState!.save();
-
+     print('play');
     context.read<Auth>().changeIsLooding();
 
-    if (_authMode == AuthMode.Login) {
+    if (context.read<Auth>().authMode == AuthMode.Login) {
       try {
-        /* await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: _authData['email'], password: _authData['password']); */
+        print('login');
+        await databaseHelper.loginData(_authData['email']!,_authData['password']!);
+        print('end login');
       } catch (e) {
         alert(e.toString());
       }
     } else {
       try {
+        print('signup');
         await databaseHelper.registerData(_authData['email']!,_authData['password']!);
+        print('end signup');
       } catch (e) {
         alert(e.toString());
       }
@@ -141,15 +144,7 @@ class _AuthCardState extends State<AuthCard> {
   }
 
   void _switchAuthMode() {
-    if (_authMode == AuthMode.Login) {
-      setState(() {
-        _authMode = AuthMode.Signup;
-      });
-    } else {
-      setState(() {
-        _authMode = AuthMode.Login;
-      });
-    }
+   context.read<Auth>().changeAuthMode();
   }
 
   @override
@@ -161,9 +156,9 @@ class _AuthCardState extends State<AuthCard> {
       ),
       elevation: 8.0,
       child: Container(
-        height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: context.read<Auth>().authMode == AuthMode.Signup ? 320 : 260,
         constraints:
-            BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+            BoxConstraints(minHeight: context.read<Auth>().authMode == AuthMode.Signup ? 320 : 260),
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -200,19 +195,23 @@ class _AuthCardState extends State<AuthCard> {
                     _authData['password'] = value!;
                   },
                 ),
-                if (_authMode == AuthMode.Signup)
+                Consumer<Auth>(builder: (context, valuee, child) => 
+                valuee.authMode ==AuthMode.Signup?
                   TextFormField(
-                    enabled: _authMode == AuthMode.Signup,
+                    enabled: valuee.authMode == AuthMode.Signup,
                     decoration: InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,
-                    validator: _authMode == AuthMode.Signup
+                    validator: valuee.authMode == AuthMode.Signup
                         ? (value) {
                             if (value != _passwordController.text) {
                               return 'Passwords do not match!';
                             }
                           }
                         : null,
-                  ),
+                  ):SizedBox(
+                  height: 0,
+                ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -220,10 +219,10 @@ class _AuthCardState extends State<AuthCard> {
                   builder: (context, value, child) => value.isLooding
                       ? CircularProgressIndicator()
                       : FlatButton(
-                          child: Text(_authMode == AuthMode.Login
+                          child: Text(context.read<Auth>().authMode == AuthMode.Login
                               ? 'LOGIN'
                               : 'SIGN UP'),
-                          onPressed: () => _submit,
+                          onPressed: _submit,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -235,8 +234,10 @@ class _AuthCardState extends State<AuthCard> {
                         ),
                 ),
                 FlatButton(
-                  child: Text(
-                      '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'}'),
+                  child: Consumer<Auth>(builder: (context, value, child) => 
+                  Text(
+                      '${value.authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'}'),
+                      ),
                   onPressed: _switchAuthMode,
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

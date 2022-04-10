@@ -16,4 +16,15 @@ class Product with ChangeNotifier {
     this.imageUrl = "",
     this.isFavorite = false,
   });
+
+   static Product fromMap (dynamic id,Map<String,dynamic> prod){
+    return Product(id: id,
+                  title: prod["title"], 
+                  description: prod["description"],
+                  price: prod["price"],
+                  imageUrl: prod["imageUrl"],
+                  isFavorite: prod['isFavorite']);
+
+  }
+
 }
