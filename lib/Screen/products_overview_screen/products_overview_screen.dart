@@ -24,7 +24,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool isInit = false;
 
   Future<void> fetchAndSetData() async {
-    await Provider.of<Products>(context, listen: false)
+    try
+    {
+      await Provider.of<Products>(context, listen: false)
         .fetchAndSetProducts()
         .catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -40,6 +42,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         duration: Duration(seconds: 2),
       ));
     });
+    }catch(e){
+      print('eeeee: ${e}');
+    }
   }
 
   @override

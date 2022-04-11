@@ -14,7 +14,7 @@ class DatabaseHelper {
   loginData(String email, String password) async {
     final user = ParseUser(email, password, email);
     var response = await user.login();
-
+    print('login : {$response}');
     if (response.success) {
       print("User was successfully login!");
       token = user.objectId;
