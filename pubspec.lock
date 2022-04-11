@@ -154,7 +154,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_lints:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_lints
       url: "https://pub.dartlang.org"
@@ -199,7 +199,7 @@ packages:
     source: hosted
     version: "2.0.1"
   image_picker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
@@ -339,7 +339,7 @@ packages:
     source: hosted
     version: "3.1.0"
   parse_server_sdk_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: parse_server_sdk_flutter
       url: "https://pub.dartlang.org"
@@ -430,7 +430,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
@@ -451,7 +451,7 @@ packages:
     source: hosted
     version: "2.0.1+1"
   shared_preferences:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"

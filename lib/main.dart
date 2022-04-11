@@ -9,6 +9,7 @@ import 'package:e_commerce/provider/order.dart';
 import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/provider/products.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +18,13 @@ import 'Screen/products_overview_screen/products_overview_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  ////disactive L Mode
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
+  //////////////
 
   const keyApplicationId = 'ti7qp7KLngCCnRL6CxElT1xNGmR8NO8geX3IutUm';
   const keyClientKey = 'moLVF9FtAfINQv2KBMaUInVXGqjLZXvUH80Hwzwr';
