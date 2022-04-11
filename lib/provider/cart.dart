@@ -4,7 +4,7 @@ class CartItem{
   String id;
   String title;
   int quantity;
-  double price;
+  int price;
 
   CartItem({required this.id, required this.title, required this.quantity, required this.price});
 }
@@ -18,7 +18,7 @@ class Cart with ChangeNotifier{
   Map<String,CartItem> get cartItems => {..._cartItems};
 
 
-  void addCartItem(String productId, String title, double price){
+  void addCartItem(String productId, String title, int price){
     if(_cartItems.containsKey(productId)){
       _cartItems[productId]!.quantity++;
     }

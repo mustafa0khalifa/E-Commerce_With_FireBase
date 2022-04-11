@@ -19,13 +19,12 @@ class Products with ChangeNotifier{
 
   Future<void> fetchAndSetProducts([bool filterByCreatorId = false]) async
   {
-    
-
-    _items.clear();
+    print('fetchAndSetProducts');
     QueryBuilder<ParseObject> queryUsers =
         QueryBuilder<ParseObject>(ParseObject('StudentTest'));
     final ParseResponse parseResponse = await queryUsers.query();
     if (parseResponse.success && parseResponse.results != null) {
+      _items.clear();
       for(int i = 0 ; i< parseResponse.results!.length ;i++){
         _items.add(Product.fromMap(parseResponse.results![i].objectId,parseResponse.results![i].get<Map<String, dynamic>>('jsonField')));
         print('id');

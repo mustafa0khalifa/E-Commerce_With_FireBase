@@ -4,7 +4,7 @@ class Product with ChangeNotifier {
   String id;
   String title;
   String description;
-  double price;
+  int price;
   String imageUrl;
   bool isFavorite;
 

@@ -56,7 +56,7 @@ class CartScreen extends StatelessWidget {
                     children: [
                       Text('Total Price: ',style: TextStyle(fontSize: 18),),
                       Chip(
-                        label: Text('${cart.totalAmount.toStringAsFixed(2)} EPG',style: TextStyle(fontSize: 16,color: Colors.white),),
+                        label: Text('${cart.totalAmount.toStringAsFixed(2)} SPY',style: TextStyle(fontSize: 16,color: Colors.white),),
                         elevation: 2,
                         backgroundColor: Theme.of(context).primaryColor,
                       ),

@@ -1,3 +1,8 @@
+import 'package:e_commerce/Screen/cart_screen/cart.dart';
+import 'package:e_commerce/Screen/my_orders_screen.dart';
+import 'package:e_commerce/Screen/productdetailscreen/product_detail_screen.dart';
+import 'package:e_commerce/Screen/user_products/edait_product_screen.dart';
+import 'package:e_commerce/Screen/user_products/user_prodects_screen.dart';
 import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/cart.dart';
 import 'package:e_commerce/provider/order.dart';
@@ -71,7 +76,14 @@ class _MyAppState extends State<MyApp> {
           ),
           home: Consumer<Auth>(builder: (context, value, child) => 
           value.isLogged ? ProductsOverviewScreen() : AuthScreen(),),
-          routes: {}
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
+            MyOrdersScreen.routeName: (ctx) => MyOrdersScreen(),
+            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+            AuthScreen.routeName: (ctx) => AuthScreen(),
+          }
     );
   }
 }

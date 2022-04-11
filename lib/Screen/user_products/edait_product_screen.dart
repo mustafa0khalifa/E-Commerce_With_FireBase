@@ -51,13 +51,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
     print("product.id :  ${product.id}");
     _formKey.currentState!.save();
 
-    if(product.id == null)
+    if(product.id == '')
     {
       product = Product(
           id: DateTime.now().toString(),
           title: productAssign['title'],
           description: productAssign['description'],
-          price: double.parse(productAssign['price']),
+          price: int.parse(productAssign['price']),
           imageUrl: productAssign['imageUrl'],
           isFavorite: product.isFavorite );
 
@@ -75,7 +75,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           id: product.id,
           title: productAssign['title'],
           description: productAssign['description'],
-          price: double.parse(productAssign['price']),
+          price: int.parse(productAssign['price']),
           imageUrl: productAssign['imageUrl'] ,
           isFavorite: product.isFavorite )
       )
@@ -97,9 +97,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void didChangeDependencies() {
     if(_isInit)
     {
-      String productId = ModalRoute.of(context)!.settings.arguments as String;
-      if(productId != null)
+      var productIdD = ModalRoute.of(context)!.settings.arguments ;
+      if(productIdD != null)
       {
+        String productId = productIdD as String;
+        print('productId : ${productId}');
         product = Provider.of<Products>(context).items.firstWhere((element) => element.id == productId);
 
         productAssign['title'] = product.title;

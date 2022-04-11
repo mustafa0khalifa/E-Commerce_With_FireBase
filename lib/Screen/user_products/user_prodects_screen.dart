@@ -12,12 +12,7 @@ class UserProductsScreen extends StatelessWidget {
   Future<void> _refreshUserProducts(BuildContext context) async
   {
     await Provider.of<Products>(context, listen: false).fetchAndSetProducts(true)
-    .catchError((error){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Couldn\'t refresh.' ),
-        duration: Duration(seconds: 2),
-      ));
-    });
+;
   }
 
   void deleteBtnClick(var productsData, BuildContext context, int i){
