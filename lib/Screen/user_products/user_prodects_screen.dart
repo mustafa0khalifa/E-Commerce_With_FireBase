@@ -1,6 +1,7 @@
 import 'package:e_commerce/Model/loading_spinner.dart';
 import 'package:e_commerce/Screen/drawer.dart';
 import 'package:e_commerce/Screen/user_products/edait_product_screen.dart';
+import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/provider/products.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +12,11 @@ class UserProductsScreen extends StatelessWidget {
 
   Future<void> _refreshUserProducts(BuildContext context) async
   {
-    await Provider.of<Products>(context, listen: false).fetchAndSetProducts(true)
-;
+    await Provider.of<Products>(context, listen: false).fetchAndSetMyProducts(true);
   }
 
-  void deleteBtnClick(var productsData, BuildContext context, int i){
-    productsData.removeProduct(productsData.items[i].id)
+  void deleteBtnClick(Product prod, BuildContext context){
+    Provider.of<Products>(context, listen: false).removeProduct(prod)
     .then((_){
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -24,6 +24,7 @@ class UserProductsScreen extends StatelessWidget {
         duration: Duration(seconds: 2),
       ));
       Navigator.of(context).pop();
+      _refreshUserProducts(context);
     })
     .catchError((error){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -34,6 +35,7 @@ class UserProductsScreen extends StatelessWidget {
     });
     LoadingSpinner(context);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +66,13 @@ class UserProductsScreen extends StatelessWidget {
               ? Center(child: CircularProgressIndicator())
               : Consumer<Products>(
                   builder: (context, productsData, child) => ListView.builder(
-                    itemCount: productsData.items.length,
+                    itemCount: productsData.myItems.length,
                     itemBuilder: (_, i) => Column(
                       children: [
                         ListTile(
-                          title: Text(productsData.items[i].title),
+                          title: Text(productsData.myItems[i].title),
                           leading: CircleAvatar(
-                            backgroundImage: NetworkImage(productsData.items[i].imageUrl),
+                            backgroundImage: NetworkImage(productsData.myItems[i].imageUrl),
                             onBackgroundImageError:(o,s) {return;},
                           ),
                           trailing: FittedBox(
@@ -79,13 +81,13 @@ class UserProductsScreen extends StatelessWidget {
                                 IconButton(
                                   icon: Icon(Icons.edit),
                                   onPressed: () {
-                                    Navigator.of(context).pushNamed(EditProductScreen.routeName,arguments: productsData.items[i].id);
+                                    Navigator.of(context).pushNamed(EditProductScreen.routeName,arguments: productsData.myItems[i].id);
                                   },
                                   color: Theme.of(context).primaryColor,
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.delete),
-                                  onPressed: ()=> deleteBtnClick(productsData, context, i),
+                                  onPressed: ()=> deleteBtnClick(productsData.myItems[i],context),
                                   color: Theme.of(context).errorColor,
                                 ),
                               ],

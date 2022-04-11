@@ -1,7 +1,9 @@
+import 'package:e_commerce/provider/products.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:provider/provider.dart';
 
 class DatabaseHelper {
   String serverUrl = "https://parseapi.back4app.com";
@@ -15,12 +17,11 @@ class DatabaseHelper {
 
     if (response.success) {
       print("User was successfully login!");
-      token = user.sessionToken;
+      token = user.objectId;
       _save(token);
       _loggin();
-    } else {
-      print("User was Error login!");
-    }
+    } 
+    else throw Exception("Login Error !!!");
   }
 
   registerData(String email, String password) async {
@@ -30,77 +31,13 @@ class DatabaseHelper {
 
     if (response.success) {
       print('success signup');
-      token = user.sessionToken;
+      token = user.objectId;
       _save(token);
       _loggin();
-    } else {
-      print('Error signup');
-    }
+    } 
+    else throw Exception("Signup Error !!!");
   }
 
-  Future<List> getData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "$serverUrl/products/";
-    http.Response response = await http.get(Uri.parse(myUrl), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $value'
-    });
-    return json.decode(response.body);
-  }
-
-  void deleteData(int id) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "$serverUrl/products/$id";
-    http.delete(Uri.parse(myUrl), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $value'
-    }).then((response) {
-      print('Response status : ${response.statusCode}');
-      print('Response body : ${response.body}');
-    });
-  }
-
-  void addData(String name, String price) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "$serverUrl/products";
-    http.post(Uri.parse(myUrl), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $value'
-    }, body: {
-      "name": "$name",
-      "price": "$price"
-    }).then((response) {
-      print('Response status : ${response.statusCode}');
-      print('Response body : ${response.body}');
-    });
-  }
-
-  void editData(int id, String name, String price) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "http://flutterapitutorial.codeforiraq.org/api/products/$id";
-    http.post(Uri.parse(myUrl), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $value'
-    }, body: {
-      "name": "$name",
-      "price": "$price"
-    }).then((response) {
-      print('Response status : ${response.statusCode}');
-      print('Response body : ${response.body}');
-    });
-  }
 
   _save(String token) async {
     final prefs = await SharedPreferences.getInstance();
@@ -109,7 +46,7 @@ class DatabaseHelper {
     prefs.setString(key, value);
   }
 
-  read() async {
+  void read() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;

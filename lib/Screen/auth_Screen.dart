@@ -88,6 +88,8 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   DatabaseHelper databaseHelper =new DatabaseHelper();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  FocusNode password = FocusNode();
+  FocusNode confirmFassword = FocusNode();
   
   Map<String, String> _authData = {
     'email': '',
@@ -129,7 +131,8 @@ class _AuthCardState extends State<AuthCard> {
         await databaseHelper.loginData(_authData['email']!,_authData['password']!);
         print('end login');
         Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder:(_)=>MyApp()), (route) => false);
-      } catch (e) {
+        databaseHelper.read();
+        } catch (e) {
         alert(e.toString());
       }
     } else {
@@ -138,7 +141,7 @@ class _AuthCardState extends State<AuthCard> {
         await databaseHelper.registerData(_authData['email']!,_authData['password']!);
         print('end signup');
        Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder:(_)=>MyApp()), (route) => false);
-
+       databaseHelper.read();
       } catch (e) {
         alert(e.toString());
       }
@@ -176,6 +179,7 @@ class _AuthCardState extends State<AuthCard> {
                     labelText: 'E-Mail',
                   ),
                   keyboardType: TextInputType.emailAddress,
+                  onFieldSubmitted: (_){ FocusScope.of(context).requestFocus(password); },
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
                       return 'Invalid email!';
@@ -190,6 +194,8 @@ class _AuthCardState extends State<AuthCard> {
                   decoration: InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   controller: _passwordController,
+                  focusNode: password,
+                  onFieldSubmitted: (_){ FocusScope.of(context).requestFocus(confirmFassword); },
                   validator: (value) {
                     if (value!.isEmpty || value.length < 5) {
                       return 'Password is too short!';
@@ -206,6 +212,7 @@ class _AuthCardState extends State<AuthCard> {
                     enabled: valuee.authMode == AuthMode.Signup,
                     decoration: InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,
+                    focusNode: confirmFassword,
                     validator: valuee.authMode == AuthMode.Signup
                         ? (value) {
                             if (value != _passwordController.text) {
