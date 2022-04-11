@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-
 class DatabaseHelper {
   String serverUrl = "https://parseapi.back4app.com";
   var status;
@@ -16,29 +15,27 @@ class DatabaseHelper {
 
     if (response.success) {
       print("User was successfully login!");
-
+      token = user.sessionToken;
+      _save(token);
+      _loggin();
     } else {
       print("User was Error login!");
     }
-    token = user.sessionToken;
-    _save(token);
-    _loggin();
   }
 
   registerData(String email, String password) async {
-   final user = ParseUser.createUser(email, password, email);
+    final user = ParseUser.createUser(email, password, email);
 
     var response = await user.signUp();
 
     if (response.success) {
       print('success signup');
+      token = user.sessionToken;
+      _save(token);
+      _loggin();
     } else {
-            print('Error signup');
+      print('Error signup');
     }
-
-    token = user.sessionToken;
-    _save(token);
-    _loggin();
   }
 
   Future<List> getData() async {
@@ -118,24 +115,22 @@ class DatabaseHelper {
     final value = prefs.get(key) ?? 0;
     print('read : $value');
   }
-  _unSave() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = '';
-    prefs.setString(key, value);
-  }
-  _loggin () async {
+
+  _loggin() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'isLogged';
     final value = true;
     prefs.setBool(key, value);
   }
 
-  _loggout () async {
+  loggout() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'isLogged';
-    final value = false;
-    prefs.setBool(key, value);
-  }
+    final key = 'token';
+    final value = '';
+    prefs.setString(key, value);
 
+    final key2 = 'isLogged';
+    final value2 = false;
+    prefs.setBool(key2, value2);
+  }
 }

@@ -50,8 +50,8 @@ class Cart with ChangeNotifier{
     notifyListeners();
   }
 
-  double get totalAmount{
-    double sum=0;
+  int get totalAmount{
+    int sum=0;
     _cartItems.forEach((key, value) { sum = sum + (value.quantity * value.price); });
     return sum;
   }

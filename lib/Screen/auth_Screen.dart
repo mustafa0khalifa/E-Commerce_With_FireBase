@@ -1,4 +1,6 @@
 import 'package:e_commerce/Controller/databasehelper.dart';
+import 'package:e_commerce/Screen/products_overview_screen/products_overview_screen.dart';
+import 'package:e_commerce/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:e_commerce/provider/auth.dart';
@@ -126,6 +128,7 @@ class _AuthCardState extends State<AuthCard> {
         print('login');
         await databaseHelper.loginData(_authData['email']!,_authData['password']!);
         print('end login');
+        Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder:(_)=>MyApp()), (route) => false);
       } catch (e) {
         alert(e.toString());
       }
@@ -134,6 +137,8 @@ class _AuthCardState extends State<AuthCard> {
         print('signup');
         await databaseHelper.registerData(_authData['email']!,_authData['password']!);
         print('end signup');
+       Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder:(_)=>MyApp()), (route) => false);
+
       } catch (e) {
         alert(e.toString());
       }

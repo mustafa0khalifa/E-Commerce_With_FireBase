@@ -10,7 +10,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class OrderItem{
   final String id;
-  final double amount;
+  final int amount;
   final List<CartItem> products;
   final DateTime dateTime;
   bool isExpanded = false;
@@ -57,7 +57,7 @@ class Orders with ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> placeNewOrder(List<CartItem> cartItems, double total) async
+  Future<void> placeNewOrder(List<CartItem> cartItems, int total) async
   {
     final DateTime dateTimeNow = DateTime.now();
 

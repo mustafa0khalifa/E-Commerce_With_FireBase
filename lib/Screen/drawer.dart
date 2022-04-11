@@ -1,9 +1,11 @@
+import 'package:e_commerce/Controller/databasehelper.dart';
 import 'package:e_commerce/Screen/my_orders_screen.dart';
 import 'package:e_commerce/Screen/user_products/user_prodects_screen.dart';
 import 'package:e_commerce/main.dart';
 import 'package:flutter/material.dart';
 
 class MyAppDrawer extends StatelessWidget {
+  DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class MyAppDrawer extends StatelessWidget {
             leading: Icon(Icons.logout),
             title: Text('LOGOUT'),
             onTap: (){
+              _databaseHelper.loggout();
               Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder:(_)=>MyApp()), (route) => false);
             },
           ),

@@ -25,8 +25,18 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   Future<void> fetchAndSetData() async
   {
-    await Provider.of<Products>(context,listen: false).fetchAndSetProducts();
-    //await Provider.of<Orders>(context,listen: false).fetchAndSetOrders();
+    await Provider.of<Products>(context,listen: false).fetchAndSetProducts().catchError((error){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Products must refresh.' ),
+        duration: Duration(seconds: 2),
+      ));
+    });
+    await Provider.of<Orders>(context,listen: false).fetchAndSetOrders().catchError((error){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Products must refresh.' ),
+        duration: Duration(seconds: 2),
+      ));
+    });
   }
 
   @override
