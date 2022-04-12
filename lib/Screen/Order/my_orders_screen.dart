@@ -54,7 +54,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               return Card(
                 child: ListTile(
                   title: Text(orders.orders[index].products[i].title),
-                  subtitle: Text('${(orders.orders[index].products[i].price * orders.orders[index].products[i].quantity).toStringAsFixed(2)} EPG'),
+                  subtitle: Text('${(orders.orders[index].products[i].price * orders.orders[index].products[i].quantity).toStringAsFixed(2)} SPY'),
                   trailing: Text('x${orders.orders[index].products[i].quantity}'),
                 ),
               );
@@ -101,8 +101,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                             ),
                           ),
                           Text(
-                              '${(orders.orders[index].amount).toStringAsFixed(2)} EPG',
-                              style: TextStyle(fontSize: 17.5,color: Colors.grey[700])
+                              '${(orders.orders[index].amount).toStringAsFixed(2)} SPY',
+                              style: TextStyle(fontSize: 17.5,color: Colors.grey[700],),
                           ),
                         ],
                       ),

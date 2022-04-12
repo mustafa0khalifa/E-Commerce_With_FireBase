@@ -75,7 +75,7 @@ class ProductDetailScreen extends StatelessWidget {
                         padding: EdgeInsets.all(15),
                         child: Text(
                           'Title: ${loadedProduct.title} \n\n'
-                          'Price: ${loadedProduct.price} EPG\n\n'
+                          'Price: ${loadedProduct.price} SPY\n\n'
                           'Favorites: ${loadedProduct.isFavorite ? 'YES' : 'NO'}\n\n'
                           'description: ${loadedProduct.description}\n'   ,
                           style: TextStyle(color: Colors.black,fontSize: 22),

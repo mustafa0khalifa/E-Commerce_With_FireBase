@@ -29,6 +29,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts([bool filterByCreatorId = false]) async {
     print('fetchAndSetProducts');
+    print(userId);
     QueryBuilder<ParseObject> queryUsers =
         QueryBuilder<ParseObject>(ParseObject('products'));
     final ParseResponse parseResponse = await queryUsers.query();

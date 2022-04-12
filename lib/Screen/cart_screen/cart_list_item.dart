@@ -25,7 +25,7 @@ class CartListItem extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
         child: ListTile(
           title: Text(cartItem.title),
-          subtitle: Text('${(cartItem.price * cartItem.quantity).toStringAsFixed(2)} EPG'),
+          subtitle: Text('${(cartItem.price * cartItem.quantity).toStringAsFixed(2)} SPY'),
           trailing: Text('x${cartItem.quantity}'),
         ),
       ),

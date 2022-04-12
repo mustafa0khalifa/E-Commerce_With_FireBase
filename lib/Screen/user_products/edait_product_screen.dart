@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:e_commerce/Model/loading_spinner.dart';
 import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/provider/products.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -206,13 +206,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
               onTap: () async {
                  image = await _picker.pickImage(source: ImageSource.gallery);
-
                     if(image == null){
                       print('is null ');
                     }
                     else{
                       print("image ..");
                       print(image!.name);
+                      //File compressedFile = await FlutterNativeImage.compressImage(image!.path);
                       parseFile = ParseFile(File(image!.path));
                       final response = await parseFile!.save();
                       if(response.success){

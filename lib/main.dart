@@ -1,5 +1,5 @@
 import 'package:e_commerce/Screen/cart_screen/cart.dart';
-import 'package:e_commerce/Screen/my_orders_screen.dart';
+import 'package:e_commerce/Screen/Order/my_orders_screen.dart';
 import 'package:e_commerce/Screen/productdetailscreen/product_detail_screen.dart';
 import 'package:e_commerce/Screen/user_products/edait_product_screen.dart';
 import 'package:e_commerce/Screen/user_products/user_prodects_screen.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Screen/auth_Screen.dart';
+import 'Screen/auth/auth_Screen.dart';
 import 'Screen/products_overview_screen/products_overview_screen.dart';
 
 void main() async {
